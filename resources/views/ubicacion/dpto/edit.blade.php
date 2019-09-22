@@ -1,0 +1,50 @@
+@extends('layouts.principal')
+@section('contenido')
+    <div class="form-row col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="row">
+            <h3>Editar Area  !! {{$departamento->Descripcion}} !!</h3>
+        </div>
+            
+            @if (count($errors)>0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error )
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>                
+            @endif
+    </div>
+            <!--si es Patch entra al edit-->
+            {!!Form::model($departamento,['method'=>'PATCH','route'=>['departamento.update',$departamento->CodDepartamento]])!!}
+            {{Form::token()}}
+            <div class="row col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                                <label for="descripcion">Nombre del Area</label>
+                                <input type="text" name="descripcion" required value="{{$departamento->Descripcion}}" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label>Ubicacion</label>
+                            <select name="codubicacion" class="form-control">
+                                @foreach ($ubicacion as $ubi)
+                                    @if ($ubi->CodUbicacion == $departamento->CodUbicacion){
+                                        <option value="{{$ubi->CodUbicacion}}" selected>{{$ubi->Edificio." --> ".$ubi->Ciudad." --> ".$ubi->Pais }} </option>
+                                    @else
+                                        <option value="{{$ubi->CodUbicacion}}">{{$ubi->Edificio." --> ".$ubi->Ciudad." --> ".$ubi->Pais }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="reset" class="btn btn-danger">Cancelar</button>
+                </div>
+            
+            {!!Form::close()!!}
+@endsection
